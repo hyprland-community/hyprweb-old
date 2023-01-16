@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Browse themes for Hyprtheme</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Material+Icons&display=block"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        font-family: Nanum Pen Script;
+      }
+    </style>
+  </head>
+  <body>
+<!--
+  JSPM Generator Import Map
+  Edit URL: https://generator.jspm.io/#RU47FsIgEKTQwsOw5Kstl/AABPZFIoQ82JjSq7s0sdv57MxcL0LcvuK5kqeATujgSQYzFUWmvHUHDTRMklOLpBSDbqF/VCoawuxNUPGw0tu06gY6Vk4MSxH6wMmmuKUVVyrK7oUzJAaMFXPWCK2YubHsU0xuDyiXSjcwCB7C9Xc2nJdyPqMl/8GiotlqQ077/OKfAQYYxcG6++f3db3MFu4/wb1T2+cA
+-->
+<script type="importmap">
+{
+  "imports": {
+    "@lit-labs/task": "https://ga.jspm.io/npm:@lit-labs/task@2.0.0/development/index.js",
+    "@ltd/j-toml": "https://ga.jspm.io/npm:@ltd/j-toml@1.37.0/index.mjs",
+    "@material/mwc-icon/mwc-icon.js": "https://ga.jspm.io/npm:@material/mwc-icon@0.27.0/mwc-icon.js",
+    "@webcomponents/custom-elements": "https://ga.jspm.io/npm:@webcomponents/custom-elements@1.5.1/custom-elements.min.js",
+    "git-submodule-js": "https://ga.jspm.io/npm:git-submodule-js@1.0.4/dist/index.js",
+    "lit": "https://ga.jspm.io/npm:lit@2.6.1/index.js",
+    "lit/directives/map.js": "https://ga.jspm.io/npm:lit@2.6.1/directives/map.js",
+    "roughjs": "https://ga.jspm.io/npm:roughjs@4.4.5/bundled/rough.js",
+    "wired-elements": "https://ga.jspm.io/npm:wired-elements@3.0.0-rc.6/lib/wired-elements.js"
+  },
+  "scopes": {
+    "https://ga.jspm.io/": {
+      "@lit/reactive-element": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/reactive-element.js",
+      "@lit/reactive-element/decorators/": "https://ga.jspm.io/npm:@lit/reactive-element@1.6.1/development/decorators/",
+      "lit-element/lit-element.js": "https://ga.jspm.io/npm:lit-element@3.2.2/development/lit-element.js",
+      "lit-html": "https://ga.jspm.io/npm:lit-html@2.6.1/development/lit-html.js",
+      "lit-html/": "https://ga.jspm.io/npm:lit-html@2.6.1/development/",
+      "lit/decorators.js": "https://ga.jspm.io/npm:lit@2.6.1/decorators.js",
+      "path-data-parser": "https://ga.jspm.io/npm:path-data-parser@0.1.0/lib/index.js",
+      "roughjs/bin/fillers/zigzag-filler": "https://ga.jspm.io/npm:roughjs@4.4.5/bin/fillers/zigzag-filler.js",
+      "roughjs/bin/renderer": "https://ga.jspm.io/npm:roughjs@4.4.5/bin/renderer.js",
+      "tslib": "https://ga.jspm.io/npm:tslib@2.4.1/tslib.es6.js"
+    }
+  }
+}
+</script>
+
+<!-- ES Module Shims: Import maps polyfill for modules browsers without import maps support (all except Chrome 89+) -->
+<script async src="https://ga.jspm.io/npm:es-module-shims@1.5.1/dist/es-module-shims.js" crossorigin="anonymous"></script>
+
+    <script>
+      function openPage(url) {
+        window.open(url, "_blank") || window.location.replace(url);
+      }
+    </script>
+
+    <script type="module">
+      import "@webcomponents/custom-elements";
+      import { LitElement, html, css } from "lit";
+      import { map } from "lit/directives/map.js";
+      import * as TOML from "@ltd/j-toml";
+      import { Task, TaskStatus } from "@lit-labs/task";
+      import { deserialize } from "git-submodule-js";
+      import {
+        WiredCard,
+        WiredButton,
+        WiredSpinner,
+        WiredLink,
+        WiredDialog,
+        WiredIconButton,
+      } from "wired-elements";
+      import "@material/mwc-icon/mwc-icon.js";
+
+      const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+      const spinner = (msg) =>
+        html`<wired-spinner spinning=""></wired-spinner><br />${msg} ...`;
+
+      class Theme extends LitElement {
+        static properties = {
+          name: { type: String },
+          url: { type: String },
+        };
+
+				static styles = css`
+					* {
+						--wired-icon-size: 14px;
+					}
+				`;
+
+        _apiTask = new Task(
+          this,
+          ([url]) => {
+            const regexp = /github\.com\/(?<owner>.*?)\/(?<repo>.*)/gm;
+            const [, owner, repo] = [...url.matchAll(regexp)][0];
+            const addOwner = (obj) => {
+              let newObj = obj;
+              newObj.owner = owner;
+              return newObj;
+            };
+
+            let promise;
+            promise = fetch(
+              `https://raw.githubusercontent.com/${owner}/${repo}/master/theme.toml`
+            )
+              .then((d) => d.text())
+              .then((d) => TOML.parse(d))
+              .then((d) => addOwner(d))
+              .catch(() =>
+                (promise = fetch(
+                  `https://raw.githubusercontent.com/${owner}/${repo}/main/theme.toml`
+                )
+                  .then((d) => d.text())
+                  .then((d) => TOML.parse(d))).then((d) => addOwner(d))
+              );
+            return promise;
+          },
+          () => [this.url]
+        );
+
+        constructor() {
+          super();
+          this.name = null;
+          this.url = null;
+          //this.dialog = false;
+        }
+
+        showDialog() {
+          this.renderRoot.querySelector("#dialog").open = true;
+          console.log("Dialog opened");
+        }
+        hideDialog() {
+          this.renderRoot.querySelector("#dialog").open = false;
+          console.log("Dialog is closed");
+        }
+
+        render() {
+          const author = (user, author) => html`<p>
+            made by
+            <wired-link href="https://github.com/${user}" target="_blank">
+              ${author}
+            </wired-link>
+          </p>`;
+
+          return html`
+            ${this._apiTask.render({
+              pending: () => spinner("Fetching theme data"),
+              complete: (data) => {
+                console.log(data);
+                let installCmd = `hyprtheme install ${this.name}`;
+                return html`<wired-card>
+                    <h4>${data.theme.name}</h4>
+                    <p>${data.theme.desc}</p>
+                    ${author(data.owner, data.theme.author)}
+                    <p>version: ${data.theme.version}</p>
+                    <wired-button onclick="openPage('${this.url}')"
+                      >Go to repo</wired-button
+                    >
+                    <wired-button @click=${this.showDialog}
+                      >Install</wired-button
+                    >
+                  </wired-card>
+                  <wired-dialog id="dialog">
+                    <h3>Install theme:</h3>
+                    <p>To install copy this into your terminal:</p>
+										<wired-card>
+											<code>${installCmd}</code>
+                    	<wired-icon-button
+                      	@click=${() => navigator.clipboard.writeText(installCmd)}
+                    	>
+                      	<mwc-icon>content_copy</mwc-icon>
+                    	</wired-icon-button>
+										</wired-card>
+                    <br />
+                    <wired-button @click=${this.hideDialog}>Close</wired-button>
+                  </wired-dialog>`;
+              },
+            })}
+          `;
+        }
+      }
+      customElements.define("hypr-theme", Theme);
+
+      class Themes extends LitElement {
+        static styles = css`
+          ul {
+            list-style: none;
+            display: grid;
+            gap: 10px;
+            grid-template-rows: masonry;
+            grid-template-columns: repeat(3, minmax(10px, 1fr));
+          }
+        `;
+        _themeListTask = new Task(
+          this,
+          async () =>
+            fetch(
+              "https://raw.githubusercontent.com/hyprland-community/theme-repo/main/.gitmodules"
+            )
+              .then((response) => response.text())
+              .then((d) => deserialize(d)),
+          () => []
+        );
+
+        genThemes(data) {
+          return html`
+            <ul>
+              ${map(
+                Object.entries(data),
+                (item) => html`<li>
+                  <hypr-theme
+                    name="${item[0]}"
+                    url="${item[1].url}"
+                  ></hypr-theme>
+                </li>`
+              )}
+            </ul>
+          `;
+        }
+
+        constructor() {
+          super();
+        }
+
+        render() {
+          return html`
+            ${this._themeListTask.render({
+              pending: () => spinner("Fetching themes ..."),
+              complete: (data) => this.genThemes(data),
+            })}
+          `;
+        }
+      }
+      customElements.define("hypr-themes", Themes);
+    </script>
+    <header><h1>Hyprtheme theme browser</h1></header>
+    <main>
+      <hypr-themes></hypr-themes>
+    </main>
+  </body>
+</html>
