@@ -1,0 +1,7 @@
+body > :not(code) {
+	font-family: Nanum Pen Script;
+}
+
+code {
+	font-family: Nanum Gothic Coding !important;
+}
