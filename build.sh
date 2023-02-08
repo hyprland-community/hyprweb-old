@@ -10,7 +10,7 @@ files=(
 build_dir="$PWD/dist"
 source_dir="$PWD/src"
 
-touch "${build_dir}"/.nojekyll
+#touch "${build_dir}"/.nojekyll
 cp "${source_dir}"/*.js "${build_dir}"
 for i in "${files[@]}"; do
 	file=$(echo "$i" | sed -E 's/ -> .*//')
