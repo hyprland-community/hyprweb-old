@@ -4,7 +4,7 @@ import { map } from "lit/directives/map.js";
 import { deserialize } from "git-submodule-js";
 import * as TOML from "@ltd/j-toml";
 import { Task, TaskStatus } from "@lit-labs/task";
-import init, { parse } from "https://unpkg.com/hyprparse-js@0.1.0-alpha.3/hyprparse_js.js";
+import init, { parse } from "https://unpkg.com/hyprparse-js/hyprparse_js.js";
 import {
 	WiredCard,
 	WiredButton,
