@@ -1,7 +1,21 @@
-body > :not(code) {
-	font-family: Nanum Pen Script;
+@font-face {
+  font-family: 'LondonBetween';
+  src: url('fonts/LondonBetween.ttf') format('truetype');
 }
-
+:root {
+        background-color: #1b1b1b;
+}
+body > :not(code) {
+        font-family: 'LondonBetween', sans-serif;
+}
+.heading {
+  display: flex;
+  align-items: center; /* Align items vertically in the center */
+  color: white;
+}
+.heading img {
+  margin-right: 20px; /* Add some space between the header and the image */
+}
 code {
 	font-family: Nanum Gothic Coding !important;
 }

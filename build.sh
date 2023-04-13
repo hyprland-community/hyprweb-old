@@ -13,6 +13,14 @@ source_dir="$PWD/src"
 mkdir -p $build_dir
 touch "${build_dir}"/.nojekyll
 cp "${source_dir}"/*.js "${build_dir}"
+
+# fonts
+mkdir -p "${build_dir}"/fonts
+cp "${source_dir}"/fonts/*.* "${build_dir}"/fonts
+
+# assets,
+mkdir -p "${build_dir}"/assets
+cp "${source_dir}"/assets/*.* "${build_dir}"/assets
 for i in "${files[@]}"; do
 	file=$(echo "$i" | sed -E 's/ -> .*//')
 	title=$(echo "$i" | sed -E 's/.* -> //')
