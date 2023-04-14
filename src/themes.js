@@ -80,6 +80,11 @@ export class ThemePreview extends LitElement {
 
 				return html`
 					<style>
+					@font-face {
+						font-family: 'LondonBetween';
+						src: url('fonts/LondonBetween.ttf') format('truetype');
+					}
+
 						.parent {
 							background: #000;
 							width: 192px;
@@ -88,7 +93,8 @@ export class ThemePreview extends LitElement {
 							display: flex; justify-content:center; align-items: center;
 						}
 						.window {
-							font-family: Nanum Gothic Coding;
+							background: #1b1b1b;
+							font-family: 'LondonBetween';
 							font-size: 7pt;
 							background: black;
 							width: 100%;

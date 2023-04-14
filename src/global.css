@@ -4,28 +4,8 @@
 }
 
 :root {
-    background: linear-gradient(-45deg, #5d04a0 , #5d04a0, #3498db);
-    background-size: 400% 400%;
-    animation: gradient 15s ease infinite;
-
+   background: linear-gradient(45deg, #62cff4 15%, #ff00ff 158.5%); 
 }
-
-@keyframes gradient {
-    0% {
-        background-position: 0% 50%;
-    }
-    50% {
-        background-position: 100% 50%;
-    }
-    100% {
-        background-position: 0% 50%;
-    }
-}
-body > :not(code) {
-        font-family: 'LondonBetween', sans-serif;
-}
-
-
 
 html, body {
   width: 100%;
@@ -49,17 +29,17 @@ code {
     opacity: 0; /* Start with an opacity of 0 to hide the box */
     transform: scale(0.5); /* Scale the box down to half its size */
     transition: all 0.5s ease-in-out; /* Use a transition for the pop-in effect */
-    width: 800px;
-    height: 450px;
+    width: 70%;
+    height: 50%;
     padding: 20px;
     margin: 0 auto; /* Center the box horizontally */
-    max-width: 400px; /* Set the maximum width of the box */
+    max-width: 90%; /* Set the maximum width of the box */
     padding: 20px; /* Add some padding inside the box */
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); /* Add a blurred effect to the background */
     border-radius: 20px; /* Add rounded corners to the box */
     border: 2px solid rgba(0, 0, 0, 0.141);
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.11); /* Add a blurred effect to the box */
+    box-shadow: 0 0 60px 2px #1b1b1c;
     display: flex; /* Use flexbox to center the content */
     flex-direction: column; /* Set the flex direction to column */
     justify-content: center; /* Center the content vertically */
@@ -68,20 +48,39 @@ code {
 }
 
 .box.show {
-    opacity: 0.9; /* Change opacity to 1 to show the box */
+    opacity: 1.0; /* Change opacity to 1 to show the box */
     transform: scale(1); /* Scale the box back to its original size */
 }
 
 /* heading */
 .heading {
+  font-family: 'LondonBetween';
+  font-size: 3rem;
   display: flex;
   align-items: center; /* Align items vertically in the center */
   color: white;
 }
 .heading img {
   margin-right: 20px; /* Add some space between the header and the image */
+  margin-bottom: 20px;
+  width: 120px;
 }
 
+.sub-heading {
+  font-family: monospace;
+  color: white;
+  font-size: 1rem;
+  margin-top: -60px;
+}
+.pages {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: white;
+  text-align: center;
+}
+wired-link {
+  text-decoration: none;
+}
 
 
 /* background */
