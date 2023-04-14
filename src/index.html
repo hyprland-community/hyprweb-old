@@ -3,13 +3,40 @@
 	import { WiredLink } from "wired-elements";
 	title("Hyprland community website")
 </script>
-	
-<header><h1>Hyprland community website</h1></header>
-<main>
-  <p>A place where people work together to make stuff for Hyprland</p>
-	<p>Pages:</p>
-	<ul>
-		<li><wired-link href="/themes">Hyprtheme themes</wired-link></li>
-		<li><wired-link href="/projects">Hyprland community projects</wired-link></li>
-	</ul>
-</main>
+<link rel="stylesheet" type="text/css" href="./box.css" />
+<body onload="showBox()">
+	<div class="container">
+		<div class="box">
+			<div class="heading">
+
+				<img src="assets/hyprland-community.svg" alt="Hyprland Community">
+				<header><h1>Hyprland community website</h1></header>
+
+			</div>
+			<div class="sub-heading"
+				<main>
+					<h3>A place where individuals collaborate to create products for Hyprland.</h3>
+									</main>
+			</div>
+			<div class="pages"> 
+				<h3>Pages:</h3>
+					<ul>
+						<li><wired-link href="/themes">Hyprtheme themes</wired-link></li>
+						<li><wired-link href="/projects">Hyprland community projects</wired-link></li>
+					</ul>
+
+			</div>
+
+			<script>
+				function showBox() {
+					const box = document.querySelector('.box');
+					setTimeout(() => {
+						box.classList.add('show');
+					}, 600); // Add the show class after a delay of 1 secon
+				}
+			</script>
+		</div>
+</body>
+
+
+
